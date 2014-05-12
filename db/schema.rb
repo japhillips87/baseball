@@ -11,7 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140512230658) do
+ActiveRecord::Schema.define(:version => 20140512231430) do
+
+  create_table "player_stats", :force => true do |t|
+    t.string   "pid"
+    t.integer  "year_id"
+    t.string   "league"
+    t.string   "team_id"
+    t.integer  "games"
+    t.integer  "at_bat"
+    t.integer  "runs"
+    t.integer  "hits"
+    t.integer  "doubles"
+    t.integer  "triples"
+    t.integer  "home_runs"
+    t.integer  "rbis"
+    t.integer  "stolen_bases"
+    t.integer  "caught_stealing"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "players", :force => true do |t|
     t.string   "pid"

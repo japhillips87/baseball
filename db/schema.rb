@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140512231430) do
+ActiveRecord::Schema.define(:version => 20140512232100) do
 
   create_table "player_stats", :force => true do |t|
     t.string   "pid"

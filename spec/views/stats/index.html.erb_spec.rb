@@ -10,4 +10,8 @@ describe '/stats/index' do
   it 'has a link for the most slugging percentage' do
     expect(rendered).to have_selector('a[href="/stats/slugging_percentage"]', text: "Slugging Percentage (Oakland A's 2007)")
   end
+
+  it 'has a link for the triple crown winners' do
+    expect(rendered).to have_selector('a[href="/stats/triple_crown_winners"]', text: "Triple Crown Winners (2011-2012)")
+  end
 end

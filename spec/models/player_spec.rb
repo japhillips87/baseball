@@ -48,4 +48,23 @@ describe Player do
     specify { expect(Player.slugging_percentage.first[:player]).to eq(player_oak_2007) }
     specify { expect(Player.slugging_percentage.first[:slugging_percentage]).to eq(1.38) }
   end
+
+  describe '.triple_crown_winners' do
+    let(:player_with_low_rbis) { FactoryGirl.create(:player) }
+    let(:player_with_high_rbis) { FactoryGirl.create(:player) }
+    let(:triple_crown_winner) { FactoryGirl.create(:player) }
+    let(:player_with_low_at_bat) { FactoryGirl.create(:player) }
+
+    before do
+      player_with_low_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 350, at_bat: 400, home_runs: 100, rbis: 2, year_id: 2011)
+      player_with_high_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 340, at_bat: 400, home_runs: 10, rbis: 200, year_id: 2011)
+      triple_crown_winner.player_stats << FactoryGirl.create(:player_stat, hits: 390, at_bat: 400, home_runs: 150, rbis: 200, year_id: 2012)
+      player_with_low_at_bat.player_stats << FactoryGirl.create(:player_stat, hits: 100, at_bat: 200, home_runs: 100, rbis: 50, year_id: 2012)
+    end
+
+    specify { expect(Player.triple_crown_winners.first[:player]).to eq(triple_crown_winner) }
+    specify { expect(Player.triple_crown_winners.last[:player]).to eq(nil) }
+    specify { expect(Player.triple_crown_winners.first[:year]).to eq(2012) }
+    specify { expect(Player.triple_crown_winners.last[:year]).to eq(2011) }
+  end
 end

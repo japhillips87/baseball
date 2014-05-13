@@ -13,6 +13,10 @@ describe StatsController do
     it 'routes /stats/slugging_percentage to #slugging_percentage' do
       get('/stats/slugging_percentage').should route_to('stats#slugging_percentage')
     end
+
+    it 'routes /stats/triple_crown_winners to #triple_crown_winners' do
+      get('/stats/triple_crown_winners').should route_to('stats#triple_crown_winners')
+    end
   end
 end
 

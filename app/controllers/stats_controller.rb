@@ -6,4 +6,8 @@ class StatsController < ApplicationController
   def slugging_percentage
     @players = Player.slugging_percentage
   end
+
+  def triple_crown_winners
+    @players = Player.triple_crown_winners
+  end
 end

@@ -17,7 +17,32 @@ class Player < ActiveRecord::Base
     build_slugging_percentage_hashes_from(players)
   end
 
+  def self.triple_crown_winners
+    players = Player.includes(:player_stats).where('(player_stats.year_id = 2011 or player_stats.year_id = 2012) and player_stats.at_bat > 399')
+    max_batting_avg_2011 = players.where('player_stats.year_id = 2011').map { |player| player.player_stats.first.batting_average }.max
+    max_home_runs_2011 = players.where('player_stats.year_id = 2011').maximum(:home_runs)
+    max_rbis_2011 = players.where('player_stats.year_id = 2011').maximum(:rbis)
+    max_batting_avg_2012 = players.where('player_stats.year_id = 2012').map { |player| player.player_stats.first.batting_average }.max
+    max_home_runs_2012 = players.where('player_stats.year_id = 2012').maximum(:home_runs)
+    max_rbis_2012 = players.where('player_stats.year_id = 2012').maximum(:rbis)
+
+    player_for_2011 = players.where('player_stats.home_runs' => max_home_runs_2011, 'player_stats.rbis' => max_rbis_2011).first
+    player_for_2012 = players.where('player_stats.home_runs' => max_home_runs_2012, 'player_stats.rbis' => max_rbis_2012).first
+    [
+      { year: 2012, player: winner_or_nil_from(player_for_2012, max_batting_avg_2012) },
+      { year: 2011, player: winner_or_nil_from(player_for_2011, max_batting_avg_2011) }
+    ]
+  end
+
   private
+
+  def self.winner_or_nil_from(player, max_batting_avg)
+    if player && player.player_stats.first.batting_average == max_batting_avg
+      player
+    else
+      nil
+    end
+  end
 
   def self.eligible_players_from(players)
     players.select do |player|

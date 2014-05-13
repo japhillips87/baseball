@@ -32,4 +32,21 @@ describe StatsController do
       assigns(:players).should eq(player_slugging_hash)
     end
   end
+
+  describe '#triple_crown_winners' do
+    let(:player) { FactoryGirl.build(:player) }
+    let(:triple_crown_hash) do
+      [
+        { 'player' => player, 'year' => 2012 },
+        { 'player' => nil, 'year' => 2011 }
+      ]
+    end
+
+    before { Player.stub(:triple_crown_winners).and_return(triple_crown_hash) }
+
+    it 'assigns the correct players' do
+      get 'triple_crown_winners'
+      assigns(:players).should eq(triple_crown_hash)
+    end
+  end
 end

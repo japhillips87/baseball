@@ -20,7 +20,15 @@ describe PlayerStat do
     let(:stat) { FactoryGirl.build(:player_stat, hits: 10, at_bat: 20) }
     let(:bad_stat) { FactoryGirl.build(:player_stat, hits: 0, at_bat: 0) }
 
-    specify { expect(stat.batting_average).to eq 0.5 }
-    specify { expect(bad_stat.batting_average).to eq 0 }
+    specify { expect(stat.batting_average).to eq(0.5) }
+    specify { expect(bad_stat.batting_average).to eq(0) }
+  end
+
+  describe '#slugging_percentage' do
+    let(:stat) { FactoryGirl.build(:player_stat, hits: 25, doubles: 4, triples: 2, home_runs: 12, at_bat: 50) }
+    let(:bad_stat) { FactoryGirl.build(:player_stat, hits: 0, doubles: 0, triples: 0, home_runs: 0, at_bat: 0) }
+
+    specify { expect(stat.slugging_percentage).to eq(1.38) }
+    specify { expect(bad_stat.slugging_percentage).to eq(0) }
   end
 end

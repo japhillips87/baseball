@@ -1,6 +1,7 @@
 Baseball::Application.routes.draw do
 
   match 'stats/most_improved_batting_average' => 'stats#most_improved_batting_average'
+  match 'stats/slugging_percentage' => 'stats#slugging_percentage'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

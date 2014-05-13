@@ -33,4 +33,19 @@ describe Player do
     specify { expect(Player.most_improved_batting_average[:player]).to eq(most_improved_player) }
     specify { expect(Player.most_improved_batting_average[:improved_average]).to eq(0.25) }
   end
+
+  describe '.slugging_percentage' do
+    let(:player_oak_2009) { FactoryGirl.create(:player) }
+    let(:player_oak_2007) { FactoryGirl.create(:player) }
+    let(:player_atl_2007) { FactoryGirl.create(:player) }
+
+    before do
+      player_oak_2009.player_stats << FactoryGirl.create(:player_stat, team_id: 'OAK', year_id: 2009)
+      player_oak_2007.player_stats << FactoryGirl.create(:player_stat, team_id: 'OAK', year_id: 2007, hits: 25, doubles: 4, triples: 2, home_runs: 12, at_bat: 50)
+      player_atl_2007.player_stats << FactoryGirl.create(:player_stat, team_id: 'ATL', year_id: 2007)
+    end
+
+    specify { expect(Player.slugging_percentage.first[:player]).to eq(player_oak_2007) }
+    specify { expect(Player.slugging_percentage.first[:slugging_percentage]).to eq(1.38) }
+  end
 end

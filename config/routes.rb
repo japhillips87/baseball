@@ -1,4 +1,7 @@
 Baseball::Application.routes.draw do
+
+  match 'stats/most_improved_batting_average' => 'stats#most_improved_batting_average'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,6 +51,7 @@ Baseball::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
+
   root :to => 'stats#index'
 
   # See how all your routes lay out with "rake routes"

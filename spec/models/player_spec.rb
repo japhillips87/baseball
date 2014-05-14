@@ -50,21 +50,38 @@ describe Player do
   end
 
   describe '.triple_crown_winners' do
-    let(:player_with_low_rbis) { FactoryGirl.create(:player) }
-    let(:player_with_high_rbis) { FactoryGirl.create(:player) }
-    let(:triple_crown_winner) { FactoryGirl.create(:player) }
-    let(:player_with_low_at_bat) { FactoryGirl.create(:player) }
+    let(:al_player_with_low_rbis) { FactoryGirl.create(:player) }
+    let(:al_player_with_high_rbis) { FactoryGirl.create(:player) }
+    let(:al_triple_crown_winner) { FactoryGirl.create(:player) }
+    let(:al_player_with_low_at_bat) { FactoryGirl.create(:player) }
+    let(:nl_player_with_low_rbis) { FactoryGirl.create(:player) }
+    let(:nl_player_with_high_rbis) { FactoryGirl.create(:player) }
+    let(:nl_triple_crown_winner) { FactoryGirl.create(:player) }
+    let(:nl_player_with_low_at_bat) { FactoryGirl.create(:player) }
 
     before do
-      player_with_low_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 350, at_bat: 400, home_runs: 100, rbis: 2, year_id: 2011)
-      player_with_high_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 340, at_bat: 400, home_runs: 10, rbis: 200, year_id: 2011)
-      triple_crown_winner.player_stats << FactoryGirl.create(:player_stat, hits: 390, at_bat: 400, home_runs: 150, rbis: 200, year_id: 2012)
-      player_with_low_at_bat.player_stats << FactoryGirl.create(:player_stat, hits: 100, at_bat: 200, home_runs: 100, rbis: 50, year_id: 2012)
+      al_player_with_low_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 350, at_bat: 400, home_runs: 100, rbis: 2, year_id: 2011, league: 'AL')
+      al_player_with_high_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 340, at_bat: 400, home_runs: 10, rbis: 200, year_id: 2011, league: 'AL')
+      al_triple_crown_winner.player_stats << FactoryGirl.create(:player_stat, hits: 390, at_bat: 400, home_runs: 150, rbis: 200, year_id: 2012, league: 'AL')
+      al_player_with_low_at_bat.player_stats << FactoryGirl.create(:player_stat, hits: 100, at_bat: 200, home_runs: 100, rbis: 50, year_id: 2012, league: 'AL')
+
+      nl_player_with_low_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 350, at_bat: 400, home_runs: 100, rbis: 2, year_id: 2011, league: 'NL')
+      nl_player_with_high_rbis.player_stats << FactoryGirl.create(:player_stat, hits: 340, at_bat: 400, home_runs: 10, rbis: 200, year_id: 2011, league: 'NL')
+      nl_triple_crown_winner.player_stats << FactoryGirl.create(:player_stat, hits: 390, at_bat: 400, home_runs: 150, rbis: 200, year_id: 2012, league: 'NL')
+      nl_player_with_low_at_bat.player_stats << FactoryGirl.create(:player_stat, hits: 100, at_bat: 200, home_runs: 100, rbis: 50, year_id: 2012, league: 'NL')
     end
 
-    specify { expect(Player.triple_crown_winners.first[:player]).to eq(triple_crown_winner) }
-    specify { expect(Player.triple_crown_winners.last[:player]).to eq(nil) }
-    specify { expect(Player.triple_crown_winners.first[:year]).to eq(2012) }
-    specify { expect(Player.triple_crown_winners.last[:year]).to eq(2011) }
+    specify { expect(Player.triple_crown_winners[0][:player]).to eq(al_triple_crown_winner) }
+    specify { expect(Player.triple_crown_winners[0][:year]).to eq(2012) }
+    specify { expect(Player.triple_crown_winners[0][:league]).to eq('AL') }
+    specify { expect(Player.triple_crown_winners[1][:player]).to eq(nl_triple_crown_winner) }
+    specify { expect(Player.triple_crown_winners[1][:year]).to eq(2012) }
+    specify { expect(Player.triple_crown_winners[1][:league]).to eq('NL') }
+    specify { expect(Player.triple_crown_winners[2][:player]).to eq(nil) }
+    specify { expect(Player.triple_crown_winners[2][:year]).to eq(2011) }
+    specify { expect(Player.triple_crown_winners[2][:league]).to eq('AL') }
+    specify { expect(Player.triple_crown_winners[3][:player]).to eq(nil) }
+    specify { expect(Player.triple_crown_winners[3][:year]).to eq(2011) }
+    specify { expect(Player.triple_crown_winners[3][:league]).to eq('NL') }
   end
 end

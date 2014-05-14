@@ -7,6 +7,10 @@
         <%= player[:year] %>
       </div>
       <div>
+        <label>League: </label>
+        <%= player[:league] %>
+      </div>
+      <div>
         <label>Winner: </label>
         <%= player[:player] ? "#{player[:player].first_name} #{player[:player].last_name}" : 'No Winner' %>
       </div>

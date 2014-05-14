@@ -19,18 +19,28 @@ class Player < ActiveRecord::Base
 
   def self.triple_crown_winners
     players = Player.includes(:player_stats).where('(player_stats.year_id = 2011 or player_stats.year_id = 2012) and player_stats.at_bat > 399')
-    max_batting_avg_2011 = players.where('player_stats.year_id = 2011').map { |player| player.player_stats.first.batting_average }.max
-    max_home_runs_2011 = players.where('player_stats.year_id = 2011').maximum(:home_runs)
-    max_rbis_2011 = players.where('player_stats.year_id = 2011').maximum(:rbis)
-    max_batting_avg_2012 = players.where('player_stats.year_id = 2012').map { |player| player.player_stats.first.batting_average }.max
-    max_home_runs_2012 = players.where('player_stats.year_id = 2012').maximum(:home_runs)
-    max_rbis_2012 = players.where('player_stats.year_id = 2012').maximum(:rbis)
+    al_max_batting_avg_2011 = players.where('player_stats.year_id = 2011 and league = "AL"').map { |player| player.player_stats.first.batting_average }.max
+    al_max_home_runs_2011 = players.where('player_stats.year_id = 2011 and league = "AL"').maximum(:home_runs)
+    al_max_rbis_2011 = players.where('player_stats.year_id = 2011 and league = "AL"').maximum(:rbis)
+    nl_max_batting_avg_2011 = players.where('player_stats.year_id = 2011 and league = "NL"').map { |player| player.player_stats.first.batting_average }.max
+    nl_max_home_runs_2011 = players.where('player_stats.year_id = 2011 and league = "NL"').maximum(:home_runs)
+    nl_max_rbis_2011 = players.where('player_stats.year_id = 2011 and league = "NL"').maximum(:rbis)
+    al_max_batting_avg_2012 = players.where('player_stats.year_id = 2012 and league = "AL"').map { |player| player.player_stats.first.batting_average }.max
+    al_max_home_runs_2012 = players.where('player_stats.year_id = 2012 and league = "AL"').maximum(:home_runs)
+    al_max_rbis_2012 = players.where('player_stats.year_id = 2012 and league = "AL"').maximum(:rbis)
+    nl_max_batting_avg_2012 = players.where('player_stats.year_id = 2012 and league = "NL"').map { |player| player.player_stats.first.batting_average }.max
+    nl_max_home_runs_2012 = players.where('player_stats.year_id = 2012 and league = "NL"').maximum(:home_runs)
+    nl_max_rbis_2012 = players.where('player_stats.year_id = 2012 and league = "NL"').maximum(:rbis)
 
-    player_for_2011 = players.where('player_stats.home_runs' => max_home_runs_2011, 'player_stats.rbis' => max_rbis_2011).first
-    player_for_2012 = players.where('player_stats.home_runs' => max_home_runs_2012, 'player_stats.rbis' => max_rbis_2012).first
+    al_player_for_2011 = players.where('player_stats.home_runs' => al_max_home_runs_2011, 'player_stats.rbis' => al_max_rbis_2011, 'player_stats.league' => 'AL').first
+    al_player_for_2012 = players.where('player_stats.home_runs' => al_max_home_runs_2012, 'player_stats.rbis' => al_max_rbis_2012, 'player_stats.league' => 'AL').first
+    nl_player_for_2011 = players.where('player_stats.home_runs' => nl_max_home_runs_2011, 'player_stats.rbis' => nl_max_rbis_2011, 'player_stats.league' => 'NL').first
+    nl_player_for_2012 = players.where('player_stats.home_runs' => nl_max_home_runs_2012, 'player_stats.rbis' => nl_max_rbis_2012, 'player_stats.league' => 'NL').first
     [
-      { year: 2012, player: winner_or_nil_from(player_for_2012, max_batting_avg_2012) },
-      { year: 2011, player: winner_or_nil_from(player_for_2011, max_batting_avg_2011) }
+      { year: 2012, league: 'AL', player: winner_or_nil_from(al_player_for_2012, al_max_batting_avg_2012) },
+      { year: 2012, league: 'NL', player: winner_or_nil_from(nl_player_for_2012, nl_max_batting_avg_2012) },
+      { year: 2011, league: 'AL', player: winner_or_nil_from(al_player_for_2011, al_max_batting_avg_2011) },
+      { year: 2011, league: 'NL', player: winner_or_nil_from(nl_player_for_2011, nl_max_batting_avg_2011) }
     ]
   end
 
